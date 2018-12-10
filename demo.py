@@ -1,4 +1,7 @@
 #-*- coding:utf-8 -*-
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 import os
 import ocr
 import time
@@ -24,5 +27,5 @@ if __name__ == '__main__':
         print("Mission complete, it took {:.3f}s".format(time.time() - t))
         print("\nRecognition Result:\n")
         for key in result:
-            print(result[key][1])
+            print(str(result[key][1]))
 
