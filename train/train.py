@@ -27,7 +27,7 @@ import densenet
 
 img_h = 32
 img_w = 280
-batch_size = 128
+batch_size = 1
 maxlabellength = 10
 
 def get_session(gpu_fraction=1.0):
