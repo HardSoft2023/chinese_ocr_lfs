@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<annotation>
+	<folder>text</folder>
+	<filename>img_2961.jpg</filename>
+	<source>
+		<database>coco_text_database</database>
+		<annotation>text</annotation>
+		<image>text</image>
+		<flickrid>000000</flickrid>
+	</source>
+	<owner>
+		<name>ms</name>
+	</owner>
+	<size>
+		<width>3264</width>
+		<height>2448</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>text</name>
+		<pose>none</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>366</xmin>
+			<ymin>320</ymin>
+			<xmax>381</xmax>
+			<ymax>328</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>text</name>
+		<pose>none</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>382</xmin>
+			<ymin>320</ymin>
+			<xmax>397</xmax>
+			<ymax>328</ymax>
+		</bndbox>
+	</object>
+</annotation>

@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<annotation>
+	<folder>text</folder>
+	<filename>img_3150.jpg</filename>
+	<source>
+		<database>coco_text_database</database>
+		<annotation>text</annotation>
+		<image>text</image>
+		<flickrid>000000</flickrid>
+	</source>
+	<owner>
+		<name>ms</name>
+	</owner>
+	<size>
+		<width>700</width>
+		<height>812</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>text</name>
+		<pose>none</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>405</xmin>
+			<ymin>431</ymin>
+			<xmax>420</xmax>
+			<ymax>477</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>text</name>
+		<pose>none</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>404</xmin>
+			<ymin>506</ymin>
+			<xmax>419</xmax>
+			<ymax>546</ymax>
+		</bndbox>
+	</object>
+</annotation>
