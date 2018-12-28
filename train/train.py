@@ -25,10 +25,10 @@ from imp import reload
 import densenet
 
 
-img_h = 32
-img_w = 280
-batch_size = 1
-maxlabellength = 10
+img_h = 370
+img_w = 400
+batch_size = 2
+maxlabellength = 6
 
 def get_session(gpu_fraction=1.0):
 
@@ -138,6 +138,7 @@ if __name__ == '__main__':
     char_set = open('char_std_5990.txt', 'r', encoding='utf-8').readlines()
     char_set = ''.join([ch.strip('\n') for ch in char_set][1:] + ['卍'])
     nclass = len(char_set)
+    print("----totoaly--num",nclass)
 
     K.set_session(get_session())
     reload(densenet)
@@ -149,8 +150,8 @@ if __name__ == '__main__':
         basemodel.load_weights(modelPath)
         print('done!')
 
-    train_loader = gen('data_train.txt', './images', batchsize=batch_size, maxlabellength=maxlabellength, imagesize=(img_h, img_w))
-    test_loader = gen('data_test.txt', './images', batchsize=batch_size, maxlabellength=maxlabellength, imagesize=(img_h, img_w))
+    train_loader = gen('train.txt', './padding_anchor', batchsize=batch_size, maxlabellength=maxlabellength, imagesize=(img_h, img_w))
+    test_loader = gen('test.txt', './padding_anchor', batchsize=batch_size, maxlabellength=maxlabellength, imagesize=(img_h, img_w))
 
     checkpoint = ModelCheckpoint(filepath='./models/weights_densenet-{epoch:02d}-{val_loss:.2f}.h5', monitor='val_loss', save_best_only=False, save_weights_only=True)
     lr_schedule = lambda epoch: 0.0005 * 0.4**epoch

@@ -3,6 +3,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 import os
+import pickle
 import ocr
 import time
 import shutil
@@ -26,6 +27,10 @@ if __name__ == '__main__':
         Image.fromarray(image_framed).save(output_file)
         print("Mission complete, it took {:.3f}s".format(time.time() - t))
         print("\nRecognition Result:\n")
+	#print("---type--", result)
+	#print("---filenamne is ----", image_file.split('/')[-1])
+	with open(output_file + ".pkl", "wb") as fp:
+		pickle.dump(result, fp, protocol=pickle.HIGHEST_PROTOCOL)
         for key in result:
             print(str(result[key][1]))
 
