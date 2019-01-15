@@ -26,7 +26,7 @@ import densenet
 
 
 img_h = 370
-img_w = 400
+img_w = 114
 batch_size = 2
 maxlabellength = 6
 
