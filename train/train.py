@@ -25,12 +25,12 @@ from imp import reload
 import densenet
 
 
-img_h = 370
+img_h = 32
 img_w = 114
-batch_size = 2
-maxlabellength = 6
+batch_size = 32
+maxlabellength = 20
 
-def get_session(gpu_fraction=1.0):
+def get_session(gpu_fraction=0.9):
 
     num_threads = os.environ.get('OMP_NUM_THREADS')
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=gpu_fraction)
@@ -77,7 +77,7 @@ class random_uniform_num():
 
         return r_n
 
-def gen(data_file, image_path, batchsize=128, maxlabellength=10, imagesize=(32, 280)):
+def gen(data_file, image_path, batchsize=128, maxlabellength=20, imagesize=(32, 280)):
     image_label = readfile(data_file)
     _imagefile = [i for i, j in image_label.items()]
     x = np.zeros((batchsize, imagesize[0], imagesize[1], 1), dtype=np.float)
@@ -135,7 +135,7 @@ def get_model(img_h, nclass):
 
 
 if __name__ == '__main__':
-    char_set = open('char_std_5990.txt', 'r', encoding='utf-8').readlines()
+    char_set = open('char_jehjxx.txt', 'r', encoding='utf-8').readlines()
     char_set = ''.join([ch.strip('\n') for ch in char_set][1:] + ['卍'])
     nclass = len(char_set)
     print("----totoaly--num",nclass)
@@ -150,22 +150,22 @@ if __name__ == '__main__':
         basemodel.load_weights(modelPath)
         print('done!')
 
-    train_loader = gen('train.txt', './padding_anchor', batchsize=batch_size, maxlabellength=maxlabellength, imagesize=(img_h, img_w))
-    test_loader = gen('test.txt', './padding_anchor', batchsize=batch_size, maxlabellength=maxlabellength, imagesize=(img_h, img_w))
+    train_loader = gen('jehjxx_train_32W.txt', './jehj_9', batchsize=batch_size, maxlabellength=maxlabellength, imagesize=(img_h, img_w))
+    test_loader = gen('jehjxx_test.txt', './jehjxx_1142', batchsize=batch_size, maxlabellength=maxlabellength, imagesize=(img_h, img_w))
 
     checkpoint = ModelCheckpoint(filepath='./models/weights_densenet-{epoch:02d}-{val_loss:.2f}.h5', monitor='val_loss', save_best_only=False, save_weights_only=True)
     lr_schedule = lambda epoch: 0.0005 * 0.4**epoch
-    learning_rate = np.array([lr_schedule(i) for i in range(10)])
+    learning_rate = np.array([lr_schedule(i) for i in range(30)])
     changelr = LearningRateScheduler(lambda epoch: float(learning_rate[epoch]))
     earlystop = EarlyStopping(monitor='val_loss', patience=2, verbose=1)
     tensorboard = TensorBoard(log_dir='./models/logs', write_graph=True)
 
     print('-----------Start training-----------')
     model.fit_generator(train_loader,
-    	steps_per_epoch = 3607567 // batch_size,
-    	epochs = 10,
+    	steps_per_epoch = 320000 // batch_size,
+    	epochs = 30,
     	initial_epoch = 0,
     	validation_data = test_loader,
-    	validation_steps = 36440 // batch_size,
-    	callbacks = [checkpoint, earlystop, changelr, tensorboard])
+    	validation_steps = 150 // batch_size,
+    	callbacks = [checkpoint, changelr, tensorboard])
 
