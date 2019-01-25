@@ -80,8 +80,8 @@ def model(img, adjust=False):
     @adjust: 是否调整文字识别结果
     """
     cfg_from_file('./ctpn/ctpn/text.yml')
-    text_recs, img_framed, img = text_detect(img)
+    tmp_res, text_recs, img_framed, img = text_detect(img)
     text_recs = sort_box(text_recs)
     result = charRec(img, text_recs, adjust)
-    return result, img_framed
+    return tmp_res, result, img_framed
 
