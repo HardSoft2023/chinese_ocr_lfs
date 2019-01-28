@@ -22,7 +22,7 @@ def load_tf_model():
     cfg.TEST.checkpoints_path = './ctpn/checkpoints'
 
     # init session
-    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.1)
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.5)
     config = tf.ConfigProto(allow_soft_placement=True, gpu_options=gpu_options)
     sess = tf.Session(config=config)
 
@@ -64,7 +64,6 @@ def draw_boxes(img, boxes, scale):
     box_id = 0
     img = img.copy()
     text_recs = np.zeros((len(boxes), 8), np.int)
-    tmp_res = [[0]*9  for i in range(len(boxes))]
     for box in boxes:
         if np.linalg.norm(box[0] - box[1]) < 5 or np.linalg.norm(box[3] - box[0]) < 5:
             continue
@@ -81,19 +80,16 @@ def draw_boxes(img, boxes, scale):
 
         for i in range(8):
             text_recs[box_id, i] = box[i]
-            tmp_res[box_id][i] = text_recs[box_id, i]
-        tmp_res[box_id][8] = box[8]
+
         box_id += 1
 
-    tmp_res.append([scale]*9)
-    print(tmp_res)
     img = cv2.resize(img, None, None, fx=1.0/scale, fy=1.0/scale, interpolation=cv2.INTER_LINEAR)
-    return tmp_res, text_recs, img
+    return text_recs, img
 
 def text_detect(img):
     scores, boxes, img, scale = ctpn(img)
-    tmp_res, text_recs, img_drawed = draw_boxes(img, boxes, scale)
-    return tmp_res, text_recs, img_drawed, img
+    text_recs, img_drawed = draw_boxes(img, boxes, scale)
+    return text_recs, img_drawed, img
 
 if __name__ == '__main__':
     from PIL import Image
@@ -101,5 +97,5 @@ if __name__ == '__main__':
     cfg_from_file('./ctpn/ctpn/text.yml')
     im = Image.open('./test_images/1.jpg')
     img = np.array(im.convert('RGB'))
-    res_tmp, text_recs, img_drawed, img = text_detect(img)
+    text_recs, img_drawed, img = text_detect(img)
     Image.fromarray(img_drawed).save('result.jpg')
