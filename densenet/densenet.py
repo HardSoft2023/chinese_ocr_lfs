@@ -7,6 +7,9 @@ from keras.layers.merge import concatenate
 from keras.layers.normalization import BatchNormalization
 from keras.regularizers import l2
 from keras.layers.wrappers import TimeDistributed
+###添加自定义模型的高和宽
+unih = 32
+uniw = 686
 
 
 def conv_block(input, growth_rate, dropout_rate=None, weight_decay=1e-4):
@@ -81,5 +84,5 @@ def dense_blstm(input):
 
     pass
 
-input = Input(shape=(32, 280, 1), name='the_input')
+input = Input(shape=(unih, uniw, 1), name='the_input')
 dense_cnn(input, 5000)

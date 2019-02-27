@@ -9,6 +9,8 @@ from keras.models import Model
 # import keras.backend as K
 
 from . import keys
+unih = 32
+uniw = 686
 from . import densenet
 
 reload(densenet)
@@ -17,7 +19,7 @@ characters = keys.alphabet[:]
 characters = characters[1:] + u'卍'
 nclass = len(characters)
 
-input = Input(shape=(32, None, 1), name='the_input')
+input = Input(shape=(unih, None, 1), name='the_input')
 y_pred= densenet.dense_cnn(input, nclass)
 basemodel = Model(inputs=input, outputs=y_pred)
 
@@ -35,10 +37,10 @@ def decode(pred):
 
 def predict(img):
     width, height = img.size[0], img.size[1]
-    scale = height * 1.0 / 32
+    scale = height * 1.0 / unih
     width = int(width / scale)
     
-    img = img.resize([width, 32], Image.ANTIALIAS)
+    img = img.resize([uniw, unih], Image.ANTIALIAS)
    
     '''
     img_array = np.array(img.convert('1'))
@@ -49,7 +51,7 @@ def predict(img):
 
     img = np.array(img).astype(np.float32) / 255.0 - 0.5
     
-    X = img.reshape([1, 32, width, 1])
+    X = img.reshape([1, unih, uniw, 1])
     
     y_pred = basemodel.predict(X)
     y_pred = y_pred[:, :, :]

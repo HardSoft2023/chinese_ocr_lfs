@@ -1,6 +1,7 @@
 #-*- coding:utf-8 -*-
 import os
 import sys
+import shutil
 import cv2
 from math import *
 import numpy as np
@@ -37,10 +38,14 @@ def dumpRotateImage(img, degree, pt1, pt2, pt3, pt4):
 
     return imgOut
 
-def charRec(img, text_recs, adjust=False):
+def charRec(img, text_recs, filename, adjust=False):
    """
    加载OCR模型，进行字符识别
    """
+   # 创建结果子目录
+   result_dir = './test_result/' + filename.split('.')[0]
+   os.mkdir(result_dir)
+   # 创建结果子目录
    results = {}
    xDim, yDim = img.shape[1], img.shape[0]
     
@@ -66,15 +71,19 @@ def charRec(img, text_recs, adjust=False):
            continue
 
        image = Image.fromarray(partImg).convert('L')
+       # 识别结果	
+       output_file = os.path.join(result_dir, str(index))
+       image.save(output_file + ".jpeg")       
+       # 识别结果	
        text = keras_densenet(image)
-       
+
        if len(text) > 0:
            results[index] = [rec]
            results[index].append(text)  # 识别文字
  
    return results
 
-def model(img, adjust=False):
+def model(img, filename, adjust=False):
     """
     @img: 图片
     @adjust: 是否调整文字识别结果
@@ -82,6 +91,6 @@ def model(img, adjust=False):
     cfg_from_file('./ctpn/ctpn/text.yml')
     text_recs, img_framed, img = text_detect(img)
     text_recs = sort_box(text_recs)
-    result = charRec(img, text_recs, adjust)
+    result = charRec(img, text_recs, filename, adjust)
     return result, img_framed
 

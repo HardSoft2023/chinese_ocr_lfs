@@ -25,12 +25,12 @@ from imp import reload
 import densenet
 
 
-img_h = 370
-img_w = 400
-batch_size = 2
-maxlabellength = 6
+img_h = 32
+img_w = 686
+batch_size = 32
+maxlabellength = 68
 
-def get_session(gpu_fraction=1.0):
+def get_session(gpu_fraction=0.4):
 
     num_threads = os.environ.get('OMP_NUM_THREADS')
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=gpu_fraction)
@@ -135,7 +135,7 @@ def get_model(img_h, nclass):
 
 
 if __name__ == '__main__':
-    char_set = open('char_std_5990.txt', 'r', encoding='utf-8').readlines()
+    char_set = open('./mix_data/default/keys_mix_data_all_union.txt', 'r', encoding='utf-8').readlines()
     char_set = ''.join([ch.strip('\n') for ch in char_set][1:] + ['卍'])
     nclass = len(char_set)
     print("----totoaly--num",nclass)
@@ -150,8 +150,8 @@ if __name__ == '__main__':
         basemodel.load_weights(modelPath)
         print('done!')
 
-    train_loader = gen('train.txt', './padding_anchor', batchsize=batch_size, maxlabellength=maxlabellength, imagesize=(img_h, img_w))
-    test_loader = gen('test.txt', './padding_anchor', batchsize=batch_size, maxlabellength=maxlabellength, imagesize=(img_h, img_w))
+    train_loader = gen('./mix_data/default/mix_data_try1_tmp_labels.txt_with_index', './mix_data/default', batchsize=batch_size, maxlabellength=maxlabellength, imagesize=(img_h, img_w))
+    test_loader = gen('.mix_data/mix_data_resize_padding/mix_data_resize_padding.txt_with_index', './mix_data/mix_data_resize_padding', batchsize=batch_size, maxlabellength=maxlabellength, imagesize=(img_h, img_w))
 
     checkpoint = ModelCheckpoint(filepath='./models/weights_densenet-{epoch:02d}-{val_loss:.2f}.h5', monitor='val_loss', save_best_only=False, save_weights_only=True)
     lr_schedule = lambda epoch: 0.0005 * 0.4**epoch
@@ -162,10 +162,11 @@ if __name__ == '__main__':
 
     print('-----------Start training-----------')
     model.fit_generator(train_loader,
-    	steps_per_epoch = 3607567 // batch_size,
+    	steps_per_epoch = 10000 // batch_size,
     	epochs = 10,
     	initial_epoch = 0,
     	validation_data = test_loader,
-    	validation_steps = 36440 // batch_size,
-    	callbacks = [checkpoint, earlystop, changelr, tensorboard])
+    	validation_steps = 5056 // batch_size,
+    	callbacks = [checkpoint, earlystop, tensorboard])
+    	#callbacks = [checkpoint, earlystop, changelr, tensorboard])
 
