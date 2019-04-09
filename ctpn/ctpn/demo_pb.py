@@ -35,6 +35,8 @@ def draw_boxes(img, image_name, boxes, scale):
                 color = (0, 255, 0)
             elif box[8] >= 0.8:
                 color = (255, 0, 0)
+            else:
+                color = (0, 0, 255)
             cv2.line(img, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), color, 2)
             cv2.line(img, (int(box[0]), int(box[1])), (int(box[4]), int(box[5])), color, 2)
             cv2.line(img, (int(box[6]), int(box[7])), (int(box[2]), int(box[3])), color, 2)

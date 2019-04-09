@@ -34,5 +34,6 @@ TRAIN:
 TEST:
   HAS_RPN: True
   DETECT_MODE: O  # H
-  checkpoints_path: checkpoints/
+  checkpoints_path: glf-checkpoints/
+  # checkpoints_path: checkpoints/
   # checkpoints_path: output/ctpn_end2end/voc_2007_trainval

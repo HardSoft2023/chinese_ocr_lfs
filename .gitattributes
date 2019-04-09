@@ -1,2 +1,4 @@
 ctpn/data/*.pb filter=lfs diff=lfs merge=lfs -text
 ctpn/data/pretrain_model/*.npy filter=lfs diff=lfs merge=lfs -text
+ctpn/data/demo/* filter=lfs diff=lfs merge=lfs -text
+ctpn/data/results/* filter=lfs diff=lfs merge=lfs -text
