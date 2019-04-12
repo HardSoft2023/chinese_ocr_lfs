@@ -3,8 +3,12 @@ import numpy as np
 import math
 import cv2 as cv
 
-path = '/media/D/code/OCR/text-detection-ctpn/data/mlt_english+chinese/image'
-gt_path = '/media/D/code/OCR/text-detection-ctpn/data/mlt_english+chinese/label'
+path = '../data/HOUSE_NOTE'
+gt_path = '../data/HOUSE_NOTE'
+#path = '../data/SROIE2019_fine'
+#gt_path = '../data/SROIE2019_fine'
+#path = '../data/TAXNOTE'
+#gt_path = '../data/TAXNOTE'
 out_path = 're_image'
 if not os.path.exists(out_path):
     os.makedirs(out_path)

@@ -27,6 +27,7 @@ __C.SUBCLS_NAME = 'voxel_exemplars'
 __C.TRAIN = edict()
 # Adam, Momentum, RMS
 __C.TRAIN.restore = 0
+__C.TRAIN.restore_path = "checkpoints/"
 __C.TRAIN.max_steps = 100000
 __C.TRAIN.SOLVER = 'Momentum'
 # learning rate
@@ -177,8 +178,8 @@ __C.TEST.RPN_NMS_THRESH = 0.7
 #__C.TEST.RPN_PRE_NMS_TOP_N = 6000
 __C.TEST.RPN_PRE_NMS_TOP_N = 12000
 ## Number of top scoring boxes to keep after applying NMS to RPN proposals
-__C.TEST.RPN_POST_NMS_TOP_N = 1000
-# __C.TEST.RPN_POST_NMS_TOP_N = 2000
+# __C.TEST.RPN_POST_NMS_TOP_N = 1000
+__C.TEST.RPN_POST_NMS_TOP_N = 2000
 # Proposal height and width both need to be greater than RPN_MIN_SIZE (at orig image scale)
 __C.TEST.RPN_MIN_SIZE = 8
 

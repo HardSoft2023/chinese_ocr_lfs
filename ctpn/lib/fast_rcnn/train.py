@@ -126,7 +126,8 @@ class SolverWrapper(object):
         # resuming a trainer
         if restore:
             try:
-                ckpt = tf.train.get_checkpoint_state(self.output_dir)
+                #ckpt = tf.train.get_checkpoint_state(self.output_dir)
+                ckpt = tf.train.get_checkpoint_state(cfg.TRAIN.restore_path)
                 print('Restoring from {}...'.format(ckpt.model_checkpoint_path), end=' ')
                 self.saver.restore(sess, ckpt.model_checkpoint_path)
                 stem = os.path.splitext(os.path.basename(ckpt.model_checkpoint_path))[0]
