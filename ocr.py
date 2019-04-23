@@ -94,3 +94,14 @@ def model(img, filename, adjust=False):
     result = charRec(img, text_recs, filename, adjust)
     return result, img_framed
 
+def advanced_model(img, filename, text_recs, adjust=False):
+    """调用advance
+
+    """
+    pass
+    # cfg_from_file('./ctpn/ctpn/text.yml')
+    # text_recs, img_framed, img = text_detect(img)
+    # 从文件获取到框框
+    text_recs = sort_box(text_recs)
+    result = charRec(img, text_recs, filename, adjust)
+    return result
