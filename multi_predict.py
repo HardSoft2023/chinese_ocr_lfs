@@ -30,7 +30,7 @@ if __name__ == '__main__':
         for txt_f in glob(os.path.join(args.rec_text_path, '*.txt')):
             # 获取到所有的东西。
             image_file = txt_f[:-4]
-            print(f"current processing image is {image_file}")
+            print("current processing image is %s", (image_file))
             image = np.array(Image.open(image_file).convert('RGB'))
             t = time.time()
             # 在这里添加给边框赋值
@@ -49,5 +49,5 @@ if __name__ == '__main__':
                 pickle.dump(result, fp, protocol=pickle.HIGHEST_PROTOCOL)
                 for key in result:
                     # 结果写入文件
-                    rf.write(f"{str(result[key][1]).strip()}\n")
+                    rf.write(f"%s\n", (str(result[key][1]).strip()))
                     print(str(result[key][1]))

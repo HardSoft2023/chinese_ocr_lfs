@@ -38,7 +38,7 @@ def dumpRotateImage(img, degree, pt1, pt2, pt3, pt4):
 
     return imgOut
 
-def charRec(img, text_recs, filename, adjust=False):
+def charRec(img, text_recs, filename, adjust=False, will_recogination=True):
    """
    加载OCR模型，进行字符识别
    """
@@ -74,12 +74,12 @@ def charRec(img, text_recs, filename, adjust=False):
        # 识别结果	
        output_file = os.path.join(result_dir, str(index))
        image.save(output_file + ".jpeg")       
-       # 识别结果	
-       text = keras_densenet(image)
-
-       if len(text) > 0:
-           results[index] = [rec]
-           results[index].append(text)  # 识别文字
+       # 识别结果
+       if will_recogination:	
+           text = keras_densenet(image)
+           if len(text) > 0:
+               results[index] = [rec]
+               results[index].append(text)  # 识别文字
  
    return results
 
@@ -94,7 +94,7 @@ def model(img, filename, adjust=False):
     result = charRec(img, text_recs, filename, adjust)
     return result, img_framed
 
-def advanced_model(img, filename, text_recs, adjust=False):
+def advanced_model(img, filename, text_recs, adjust=False, will_recogination=False):
     """调用advance
 
     """
