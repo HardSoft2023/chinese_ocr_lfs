@@ -10,7 +10,6 @@ from PIL import Image
 sys.path.append(os.getcwd() + '/ctpn')
 from ctpn.text_detect import text_detect
 from lib.fast_rcnn.config import cfg_from_file
-from densenet.model import predict as keras_densenet
 
 
 def sort_box(box):
@@ -76,11 +75,12 @@ def charRec(img, text_recs, filename, adjust=False, will_recogination=True):
        image.save(output_file + ".jpeg")       
        # 识别结果
        if will_recogination:	
+           from densenet.model import predict as keras_densenet
            text = keras_densenet(image)
            if len(text) > 0:
                results[index] = [rec]
                results[index].append(text)  # 识别文字
- 
+
    return results
 
 def model(img, filename, adjust=False):
