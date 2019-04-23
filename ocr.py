@@ -103,5 +103,5 @@ def advanced_model(img, filename, text_recs, adjust=False, will_recogination=Fal
     # text_recs, img_framed, img = text_detect(img)
     # 从文件获取到框框
     text_recs = sort_box(text_recs)
-    result = charRec(img, text_recs, filename, adjust)
+    result = charRec(img, text_recs, filename, adjust, will_recogination)
     return result
