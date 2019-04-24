@@ -9,8 +9,8 @@ from keras.models import Model
 # import keras.backend as K
 
 from . import keys
-unih = 32
-uniw = 686
+unih = 81
+uniw = 540
 from . import densenet
 
 reload(densenet)
@@ -23,7 +23,8 @@ input = Input(shape=(unih, None, 1), name='the_input')
 y_pred= densenet.dense_cnn(input, nclass)
 basemodel = Model(inputs=input, outputs=y_pred)
 
-modelPath = os.path.join(os.getcwd(), 'densenet/models/weights_densenet.h5')
+modelPath = os.path.join(os.getcwd(), 'densenet/models/train_20190424_add_bj_ft-01-0.479524.h5')
+#modelPath = os.path.join(os.getcwd(), 'densenet/models/weights_densenet.h5')
 if os.path.exists(modelPath):
     basemodel.load_weights(modelPath)
 

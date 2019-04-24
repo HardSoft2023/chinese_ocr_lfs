@@ -54,14 +54,13 @@ if __name__ == '__main__':
                 # ctpn返回的既不是顺时针也不是逆时针，而是自上而下，自左而右。二行二列。
                 for j_col, ele in enumerate(new_points):
                     text_recs[i_row, j_col] = ele
-            result = ocr.advanced_model(image, os.path.basename(image_file), text_recs)
+            result = ocr.advanced_model(image, os.path.basename(image_file), text_recs, will_recogination=True )
             output_file = os.path.join(result_dir, image_file.split('/')[-1])
             print("Mission complete, it took {:.3f}s".format(time.time() - t))
             print("\nRecognition Result:\n")
             with open(output_file + ".pkl", "wb") as fp, open(output_file + "_result.json", "w") as rf:
                 pickle.dump(result, fp, protocol=pickle.HIGHEST_PROTOCOL)
-                json.dump(result, rf)
+                rf.write(str(result))
+                #json.dump(result, rf)
                 for key in result:
-                    # 结果写入文件
-                    # rf.write("%s\n", (str(result[key][1]).strip()))
                     print(str(result[key][1]))

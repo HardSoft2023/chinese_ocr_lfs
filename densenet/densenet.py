@@ -7,9 +7,8 @@ from keras.layers.merge import concatenate
 from keras.layers.normalization import BatchNormalization
 from keras.regularizers import l2
 from keras.layers.wrappers import TimeDistributed
-###添加自定义模型的高和宽
-unih = 32
-uniw = 686
+unih = 81
+uniw = 540
 
 
 def conv_block(input, growth_rate, dropout_rate=None, weight_decay=1e-4):
