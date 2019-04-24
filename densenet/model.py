@@ -6,7 +6,7 @@ from PIL import Image, ImageOps
 
 from keras.layers import Input
 from keras.models import Model
-# import keras.backend as K
+import keras.backend as K
 
 from . import keys
 unih = 81
@@ -57,8 +57,8 @@ def predict(img):
     y_pred = basemodel.predict(X)
     y_pred = y_pred[:, :, :]
 
-    # out = K.get_value(K.ctc_decode(y_pred, input_length=np.ones(y_pred.shape[0]) * y_pred.shape[1])[0][0])[:, :]
-    # out = u''.join([characters[x] for x in out[0]])
-    out = decode(y_pred)
+    out = K.get_value(K.ctc_decode(y_pred, input_length=np.ones(y_pred.shape[0]) * y_pred.shape[1])[0][0])[:, :]
+    out = u''.join([characters[x] for x in out[0]])
+    # out = decode(y_pred)
 
     return out
