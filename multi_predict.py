@@ -11,6 +11,7 @@ import shutil
 import numpy as np
 from PIL import Image
 from glob import glob
+import json
 image_files = glob('./test_images/*.*')
 
 def parse_args():
@@ -35,30 +36,32 @@ if __name__ == '__main__':
             t = time.time()
             # 在这里添加给边框赋值
             with open(txt_f) as f:
-                tmp_box_list = [str(e).strip() for e in f.readlines()]
+                tmp_box_list = [str(e).strip().split(",") for e in f.readlines()]
             text_recs = np.zeros((len(tmp_box_list), 8), np.int)
-            for i, rec_line in zip(range(len(tmp_box_list)), tmp_box_list):
-                rec_line = [float(m) for m in rec_line.split(",")]
-                # 把逆时针调整为顺时针，这个地方是关键。
-                text_points = rec_line
-
-                left_top_p = [text_points[0]]
-                # 对剩余的三个点就行倒置
-                remaing_p = text_points[1:]
-                remaing_p.reverse()
-                new_points = left_top_p + remaing_p
-
+            for i_row, rec_line in enumerate(tmp_box_list):
+                rec_line = [float(m) for m in rec_line]
+                # ctpn返回的既不是顺时针也不是逆时针，而是自上而下，自左而右。二行二列。
+                # 调整为[(),()]
+                text_points = []
+                for i in range(8):
+                    if i % 2 == 1:
+                        text_points.append((rec_line[i - 1], rec_line[i]))
+                top_l_r = [text_points[0]] + [text_points[3]]
+                bottom_l_r = [text_points[1]] + [text_points[2]]
+                new_points = top_l_r + bottom_l_r
                 rec_line = new_points
-                # 把逆时针调整为顺时针，这个地方是关键。
-                for j, ele in zip(range(8), rec_line):
-                    text_recs[i][j] = ele
+                new_points = [ee for e in new_points for ee in e]
+                # ctpn返回的既不是顺时针也不是逆时针，而是自上而下，自左而右。二行二列。
+                for j_col, ele in enumerate(new_points):
+                    text_recs[i_row, j_col] = ele
             result = ocr.advanced_model(image, os.path.basename(image_file), text_recs)
             output_file = os.path.join(result_dir, image_file.split('/')[-1])
             print("Mission complete, it took {:.3f}s".format(time.time() - t))
             print("\nRecognition Result:\n")
-            with open(output_file + ".pkl", "wb") as fp, open(output_file + "_result.txt", "w") as rf:
+            with open(output_file + ".pkl", "wb") as fp, open(output_file + "_result.json", "w") as rf:
                 pickle.dump(result, fp, protocol=pickle.HIGHEST_PROTOCOL)
+                json.dump(result, rf)
                 for key in result:
                     # 结果写入文件
-                    rf.write("%s\n", (str(result[key][1]).strip()))
+                    # rf.write("%s\n", (str(result[key][1]).strip()))
                     print(str(result[key][1]))

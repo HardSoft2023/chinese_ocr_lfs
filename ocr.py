@@ -69,7 +69,8 @@ def charRec(img, text_recs, filename, adjust=False, will_recogination=True):
        if partImg.shape[0] < 1 or partImg.shape[1] < 1 or partImg.shape[0] > partImg.shape[1]:  # 过滤异常图片
            continue
 
-       image = Image.fromarray(partImg).convert('L')
+       image = Image.fromarray(partImg).convert('RGB')
+    #    image = Image.fromarray(partImg).convert('L')
        # 识别结果	
        output_file = os.path.join(result_dir, str(index))
        image.save(output_file + ".jpeg")       
